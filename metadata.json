@@ -1,0 +1,6 @@
+{
+  "name": "NEXGEN Media",
+  "description": "Vaibhav Kadnar blends authentic storytelling, creative vision, and engaging digital media to create content that breaks through the noise.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
