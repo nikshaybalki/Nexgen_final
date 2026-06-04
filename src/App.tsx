@@ -26,6 +26,23 @@ export default function App() {
     return "home";
   });
 
+  const forceScrollToTop = () => {
+    const htmlEl = document.documentElement;
+    // Save current scroll behavior
+    const originalStyle = htmlEl.style.scrollBehavior;
+    // Disable smooth scrolling temporarily to prevent transitions/delays
+    htmlEl.style.scrollBehavior = "auto";
+    
+    window.scrollTo(0, 0);
+    htmlEl.scrollTop = 0;
+    document.body.scrollTop = 0;
+    
+    // Restore original style
+    setTimeout(() => {
+      htmlEl.style.scrollBehavior = originalStyle;
+    }, 20);
+  };
+
   const navigate = (toPage: "home" | "about" | "content" | "career", hash?: string) => {
     let url = "/";
     if (toPage === "about") url = "/about";
@@ -42,11 +59,16 @@ export default function App() {
         }
       }, 100);
     } else {
-      window.scrollTo(0, 0);
+      forceScrollToTop();
     }
   };
 
   useEffect(() => {
+    // Disable default browser scroll restoration on Single Page Router history changes
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
     const handlePopState = () => {
       const path = window.location.pathname;
       if (path === "/about" || path === "/about-us") {
@@ -73,7 +95,18 @@ export default function App() {
         }
       }, 300);
     } else {
-      window.scrollTo(0, 0);
+      // Snap instantly to the top
+      forceScrollToTop();
+      
+      // Fire at multiple staggered intervals to ensure the page remains at 0,0
+      // during layouts changes, particularly when the mobile menu is collapsing (300ms duration)
+      const timers = [50, 150, 350, 500].map(delay => 
+        setTimeout(forceScrollToTop, delay)
+      );
+      
+      return () => {
+        timers.forEach(clearTimeout);
+      };
     }
   }, [currentPage]);
   
