@@ -4,7 +4,6 @@ import { useRef, useState, useEffect } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ContainerScroll } from "./container-scroll-animation";
 import ChannelScreens from "./channel-screens";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -31,6 +30,7 @@ const stats = [
     tilt: 0,
     y: "45%",
     x: "2%",
+    hasPage: true,
   },
   {
     side: "left",
@@ -53,6 +53,7 @@ const stats = [
     tilt: -5,
     y: "15%",
     x: "65%",
+    hasPage: true,
   },
   {
     side: "right",
@@ -96,7 +97,7 @@ export default function ImageSection() {
 
   useGSAP(() => {
     const wrappers = gsap.utils.toArray<HTMLElement>(".stat-card-wrapper");
-    const cards = gsap.utils.toArray<HTMLElement>(".stat-card");
+    const cards = gsap.utils.toArray<HTMLElement>(".desktop-stat-card");
     
     wrappers.forEach((wrapper, i) => {
       const item = stats[i];
@@ -151,7 +152,8 @@ export default function ImageSection() {
            <div className="absolute w-[300px] h-[300px] border border-brand-beige/20 rounded-full" />
         </div>
 
-        <div className="relative w-full aspect-square md:aspect-[16/9] max-w-4xl mx-auto">
+        {/* Desktop View */}
+        <div className="hidden md:block relative w-full aspect-[16/9] max-w-4xl mx-auto">
           {/* Character Image */}
           <motion.div 
             className="w-full h-full relative z-10"
@@ -182,7 +184,7 @@ export default function ImageSection() {
               }}
             >
               <div
-                className={`stat-card flex items-center gap-2 md:gap-4 bg-brand-dark/80 backdrop-blur-xl border border-brand-beige/10 p-2 md:p-3 rounded-2xl shadow-2xl min-w-[160px] md:min-w-[240px] transition-colors scale-75 md:scale-100 ${item.hasPage ? "cursor-pointer hover:bg-brand-dark/100 hover:border-brand-beige/30" : "cursor-default"}`}
+                className={`stat-card desktop-stat-card flex items-center gap-2 md:gap-4 bg-brand-dark/80 backdrop-blur-xl border border-brand-beige/10 p-2 md:p-3 rounded-2xl shadow-2xl min-w-[160px] md:min-w-[240px] transition-colors scale-75 md:scale-100 ${item.hasPage ? "cursor-pointer hover:bg-brand-dark/100 hover:border-brand-beige/30" : "cursor-default"}`}
                 onClick={() => {
                   if (item.hasPage) setSelectedChannel(item);
                 }}
@@ -193,7 +195,7 @@ export default function ImageSection() {
                 </div>
 
                 {/* Info */}
-                <div className="flex flex-col gap-0.5">
+                <div className="flex flex-col gap-0.5 text-left">
                    <h4 className="text-xs font-bold text-brand-beige tracking-tight uppercase line-clamp-1">{item.name}</h4>
                    <div className="flex items-center gap-2">
                       {item.platform === "youtube" ? (
@@ -207,6 +209,60 @@ export default function ImageSection() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Mobile View */}
+        <div className="block md:hidden w-full flex flex-col items-center">
+          {/* Character Image */}
+          <div className="w-64 h-64 relative mb-10">
+            <img 
+              src="https://lh3.googleusercontent.com/d/1YH4V7trQ35jtuP9V_6tNdtuGsPW1x-xK" 
+              alt="Vaibhav Kadnar Character" 
+              className="w-full h-full object-contain drop-shadow-[0_0_40px_rgba(207,17,52,0.25)]"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = "https://images.unsplash.com/photo-1492691523567-6119200a9443?q=80&w=2070&auto=format&fit=crop";
+              }}
+            />
+          </div>
+
+          {/* Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-md mx-auto px-4">
+            {stats.map((item, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.05 }}
+              >
+                <div
+                  className="flex items-center gap-4 bg-brand-dark border border-brand-beige/10 p-3 rounded-2xl shadow-2xl transition-colors cursor-pointer hover:border-brand-beige/30 w-full"
+                  onClick={() => {
+                    if (item.hasPage) setSelectedChannel(item);
+                  }}
+                >
+                  {/* Avatar Placeholder */}
+                  <div className="w-12 h-12 rounded-full overflow-hidden border border-brand-beige/20 bg-brand-beige/10 shrink-0">
+                     <img src={`/${item.name}.jpg`} alt={item.name} className="w-full h-full object-cover" />
+                  </div>
+
+                  {/* Info */}
+                  <div className="flex flex-col gap-0.5 text-left">
+                     <h4 className="text-xs font-bold text-brand-beige tracking-tight uppercase line-clamp-1">{item.name}</h4>
+                     <div className="flex items-center gap-2">
+                        {item.platform === "youtube" ? (
+                          <Youtube className="w-4 h-4 text-red-600 fill-red-600" />
+                        ) : (
+                          <Instagram className="w-4 h-4 text-pink-500" />
+                        )}
+                        <span className="text-[10px] font-medium text-brand-beige/60 uppercase">{item.stat}</span>
+                     </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -227,35 +283,7 @@ export default function ImageSection() {
             >
               <X className="w-6 h-6" />
             </button>
-            <div className="pt-20 pb-10">
-              {selectedChannel.videoId ? (
-                <ContainerScroll 
-                  scrollContainerRef={modalRef}
-                  titleComponent={
-                    <h1 className="text-4xl md:text-7xl font-mango uppercase font-bold text-white mb-20 text-center">
-                      {selectedChannel.name}
-                    </h1>
-                  }
-                >
-                  <div className="w-full h-full bg-black">
-                     <iframe 
-                       className="w-full h-full" 
-                       src={`https://www.youtube.com/embed/${selectedChannel.videoId}?autoplay=1&mute=1`} 
-                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                       allowFullScreen 
-                     />
-                  </div>
-                </ContainerScroll>
-              ) : (
-                <div className="text-center mb-16 mt-10 px-6">
-                   <h1 className="text-4xl md:text-7xl font-mango uppercase font-bold text-white">
-                      {selectedChannel.name}
-                   </h1>
-                </div>
-              )}
-
-              <ChannelScreens channelName={selectedChannel.name} scrollContainerRef={modalRef} />
-            </div>
+            <ChannelScreens channelName={selectedChannel.name} scrollContainerRef={modalRef} />
           </motion.div>
         )}
       </AnimatePresence>

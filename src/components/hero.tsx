@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 
-export default function Hero() {
+export default function Hero({ onNavigate }: { onNavigate: (toPage: "home" | "about" | "content") => void }) {
   const [time, setTime] = useState(new Date());
 
   useEffect(() => {
@@ -49,7 +49,11 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.4 }}
         >
           <a
-            href="#portfolio"
+            href="/content"
+            onClick={(e) => {
+              e.preventDefault();
+              onNavigate("content");
+            }}
             className="group flex flex-col items-start gap-4"
           >
             <div className="bg-brand-red text-brand-beige px-6 py-4 rounded-lg text-sm font-bold tracking-widest uppercase flex items-center gap-3">

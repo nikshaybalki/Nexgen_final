@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import Navbar from "./components/navbar";
 import Hero from "./components/hero";
 import ImageSection from "./components/image-section";
-import Ecosystem from "./components/ecosystem";
 import ScaleSection from "./components/scale-section";
 import AboutUs from "./components/about-us";
 import StudioSection from "./components/studio-section";
@@ -14,16 +13,21 @@ import TheWayWeWork from "./components/the-way-we-work";
 import TheTeam from "./components/the-team";
 import CareerSection from "./components/career-section";
 import Footer from "./components/footer";
+import ContentPage from "./components/content-page";
 
 export default function App() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [currentPage, setCurrentPage] = useState<"home" | "about">(() => {
+  const [currentPage, setCurrentPage] = useState<"home" | "about" | "content">(() => {
     const path = window.location.pathname;
-    return path === "/about" || path === "/about-us" ? "about" : "home";
+    if (path === "/about" || path === "/about-us") return "about";
+    if (path === "/content") return "content";
+    return "home";
   });
 
-  const navigate = (toPage: "home" | "about", hash?: string) => {
-    const url = toPage === "about" ? "/about" : "/";
+  const navigate = (toPage: "home" | "about" | "content", hash?: string) => {
+    let url = "/";
+    if (toPage === "about") url = "/about";
+    else if (toPage === "content") url = "/content";
     window.history.pushState({}, "", url + (hash || ""));
     setCurrentPage(toPage);
 
@@ -42,7 +46,13 @@ export default function App() {
   useEffect(() => {
     const handlePopState = () => {
       const path = window.location.pathname;
-      setCurrentPage(path === "/about" || path === "/about-us" ? "about" : "home");
+      if (path === "/about" || path === "/about-us") {
+        setCurrentPage("about");
+      } else if (path === "/content") {
+        setCurrentPage("content");
+      } else {
+        setCurrentPage("home");
+      }
     };
 
     window.addEventListener("popstate", handlePopState);
@@ -67,13 +77,12 @@ export default function App() {
       <main>
         {currentPage === "home" ? (
           <>
-            <Hero />
+            <Hero onNavigate={navigate} />
             <ImageSection />
-            <Ecosystem />
             <ScaleSection />
             <CareerSection />
           </>
-        ) : (
+        ) : currentPage === "about" ? (
           <>
             <AboutUs />
             <StudioSection />
@@ -83,10 +92,12 @@ export default function App() {
             <TheWayWeWork />
             <TheTeam />
           </>
+        ) : (
+          <ContentPage />
         )}
       </main>
 
-      <Footer />
+      <Footer onNavigate={navigate} />
       
       {/* Side Decorative Borders matching the original design */}
       <div className="fixed top-0 left-[20px] md:left-[60px] h-screen w-px bg-brand-beige/10 z-50 pointer-events-none" />

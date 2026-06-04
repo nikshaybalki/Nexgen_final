@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import { Send } from "lucide-react";
 
-export default function Footer() {
+export default function Footer({ onNavigate }: { onNavigate?: (toPage: "home" | "about" | "content", hash?: string) => void }) {
   return (
     <footer className="bg-black pt-32 pb-16 px-6 md:px-16 border-t border-brand-beige/10 overflow-hidden relative">
       <div className="max-w-7xl mx-auto relative z-10">
@@ -27,17 +27,63 @@ export default function Footer() {
                <div className="space-y-6">
                  <h4 className="text-xl font-bold">Pages</h4>
                  <ul className="space-y-3 text-brand-beige/40">
-                   <li><a href="/" className="hover:text-brand-beige transition-colors">Home</a></li>
-                   <li><a href="#social" className="hover:text-brand-beige transition-colors">Social</a></li>
-                   <li><a href="#about" className="hover:text-brand-beige transition-colors">About</a></li>
+                   <li>
+                     <a 
+                       href="/" 
+                       onClick={(e) => {
+                         e.preventDefault();
+                         onNavigate?.("home");
+                       }} 
+                       className="hover:text-brand-beige transition-colors"
+                     >
+                       Home
+                     </a>
+                   </li>
+                   <li>
+                     <a 
+                       href="/content" 
+                       onClick={(e) => {
+                         e.preventDefault();
+                         onNavigate?.("content");
+                       }} 
+                       className="hover:text-brand-beige transition-colors"
+                     >
+                       Content
+                     </a>
+                   </li>
+                   <li>
+                     <a 
+                       href="/about" 
+                       onClick={(e) => {
+                         e.preventDefault();
+                         onNavigate?.("about");
+                       }} 
+                       className="hover:text-brand-beige transition-colors"
+                     >
+                       About Us
+                     </a>
+                   </li>
+                   <li>
+                     <a 
+                       href="#career" 
+                       onClick={(e) => {
+                         e.preventDefault();
+                         onNavigate?.("home", "#career");
+                       }} 
+                       className="hover:text-brand-beige transition-colors"
+                     >
+                       Career
+                     </a>
+                   </li>
                  </ul>
                </div>
                <div className="space-y-6">
                  <h4 className="text-xl font-bold">Connect</h4>
                  <div className="space-y-3 text-brand-beige/40">
                     <p className="leading-tight">
-                        Based in Bengaluru,<br />
-                        India
+                        Based in Pune, India,<br />
+                        NexGen Media, 5th Floor,<br />
+                        Vision Flora Mall, Pimple Saudagar
                     </p>
                     <a href="mailto:hello@nexgenmedia.com" className="block pt-4 text-brand-beige font-semibold hover:text-brand-red transition-colors underline underline-offset-4">
                         hello@nexgenmedia.com

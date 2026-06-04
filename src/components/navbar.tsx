@@ -1,14 +1,16 @@
-import { motion, useScroll, useTransform } from "motion/react";
-import { useEffect, useState } from "react";
+import { motion, AnimatePresence, useScroll } from "motion/react";
+import React, { useEffect, useState } from "react";
+import { Menu, X } from "lucide-react";
 
 interface NavbarProps {
-  currentPage: "home" | "about";
-  onNavigate: (toPage: "home" | "about", hash?: string) => void;
+  currentPage: "home" | "about" | "content";
+  onNavigate: (toPage: "home" | "about" | "content", hash?: string) => void;
 }
 
 export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
   const { scrollY } = useScroll();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     return scrollY.on("change", (latest) => {
@@ -17,9 +19,9 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
   }, [scrollY]);
 
   const navLinks = [
-    { name: "Home", href: "#", page: "home" as const },
-    { name: "Content", href: "#content", page: "home" as const, hash: "#content" },
-    { name: "About Us", href: "#about-us", page: "about" as const },
+    { name: "Home", href: "/", page: "home" as const },
+    { name: "Content", href: "/content", page: "content" as const },
+    { name: "About Us", href: "/about-us", page: "about" as const },
     { name: "Career", href: "#career", page: "home" as const, hash: "#career" },
   ];
 
@@ -58,6 +60,7 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
           {navLinks.map((link) => {
             const isActive = 
               (link.name === "About Us" && currentPage === "about") || 
+              (link.name === "Content" && currentPage === "content") || 
               (link.name === "Home" && currentPage === "home" && !window.location.hash);
             
             return (
@@ -88,14 +91,63 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
           </motion.a>
         </div>
 
-        {/* Mobile menu icon (Simplified for now) */}
-        <div className="md:hidden">
-            <div className="w-8 h-8 rounded-full bg-brand-red flex items-center justify-center gap-1">
-                <div className="w-1.5 h-1.5 rounded-full bg-white" />
-                <div className="w-1.5 h-1.5 rounded-full bg-white" />
-            </div>
-        </div>
+        {/* Mobile menu icon */}
+        <button 
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="md:hidden text-brand-beige hover:text-white p-2 focus:outline-none cursor-pointer"
+          aria-label="Toggle menu"
+        >
+          {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
       </div>
+
+      {/* Mobile Menu Dropdown */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="absolute top-[74px] left-0 w-full bg-black/95 border-b border-brand-beige/10 backdrop-blur-lg flex flex-col items-center gap-6 py-8 md:hidden"
+          >
+            {navLinks.map((link) => {
+              const isActive = 
+                (link.name === "About Us" && currentPage === "about") || 
+                (link.name === "Content" && currentPage === "content") || 
+                (link.name === "Home" && currentPage === "home" && !window.location.hash);
+              
+              return (
+                <a 
+                  key={link.name} 
+                  href={link.href}
+                  onClick={(e) => {
+                    handleLinkClick(e, link);
+                    setIsMenuOpen(false);
+                  }}
+                  className={`text-lg font-medium transition-colors ${
+                    isActive 
+                      ? "text-brand-red font-bold" 
+                      : "text-brand-beige/80 hover:text-brand-beige"
+                  }`}
+                >
+                  {link.name}
+                </a>
+              );
+            })}
+            
+            <a
+              href="https://forms.gle/fVo9Nq8fd6xHhGZAA"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-brand-red text-brand-beige px-8 py-3 rounded-full text-sm font-bold tracking-widest uppercase hover:opacity-90 transition-opacity mt-4"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              SCHEDULE A CALL
+            </a>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.nav>
   );
 }
