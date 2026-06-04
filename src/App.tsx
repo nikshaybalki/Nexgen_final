@@ -3,30 +3,87 @@ import { useEffect, useRef, useState } from "react";
 import Navbar from "./components/navbar";
 import Hero from "./components/hero";
 import ImageSection from "./components/image-section";
-import BrandTicker from "./components/brand-ticker";
-import Showreel from "./components/showreel";
 import Ecosystem from "./components/ecosystem";
 import ScaleSection from "./components/scale-section";
-import Testimonials from "./components/testimonials";
+import AboutUs from "./components/about-us";
+import StudioSection from "./components/studio-section";
+import ValuesSection from "./components/values-section";
+import WhoWeAre from "./components/who-we-are";
+import WhyWeExist from "./components/why-we-exist";
+import TheWayWeWork from "./components/the-way-we-work";
+import TheTeam from "./components/the-team";
 import CareerSection from "./components/career-section";
 import Footer from "./components/footer";
 
 export default function App() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [currentPage, setCurrentPage] = useState<"home" | "about">(() => {
+    const path = window.location.pathname;
+    return path === "/about" || path === "/about-us" ? "about" : "home";
+  });
+
+  const navigate = (toPage: "home" | "about", hash?: string) => {
+    const url = toPage === "about" ? "/about" : "/";
+    window.history.pushState({}, "", url + (hash || ""));
+    setCurrentPage(toPage);
+
+    if (hash) {
+      setTimeout(() => {
+        const element = document.querySelector(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  useEffect(() => {
+    const handlePopState = () => {
+      const path = window.location.pathname;
+      setCurrentPage(path === "/about" || path === "/about-us" ? "about" : "home");
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  useEffect(() => {
+    if (currentPage === "home" && window.location.hash) {
+      setTimeout(() => {
+        const element = document.querySelector(window.location.hash);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 300);
+    }
+  }, [currentPage]);
   
   return (
     <div ref={containerRef} className="min-h-screen bg-black font-sans text-brand-beige">
-      <Navbar />
+      <Navbar currentPage={currentPage} onNavigate={navigate} />
       
       <main>
-        <Hero />
-        <ImageSection />
-        <BrandTicker />
-        <Showreel />
-        <Ecosystem />
-        <ScaleSection />
-        <Testimonials />
-        <CareerSection />
+        {currentPage === "home" ? (
+          <>
+            <Hero />
+            <ImageSection />
+            <Ecosystem />
+            <ScaleSection />
+            <CareerSection />
+          </>
+        ) : (
+          <>
+            <AboutUs />
+            <StudioSection />
+            <ValuesSection />
+            <WhoWeAre />
+            <WhyWeExist />
+            <TheWayWeWork />
+            <TheTeam />
+          </>
+        )}
       </main>
 
       <Footer />

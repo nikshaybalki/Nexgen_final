@@ -143,7 +143,7 @@ export default function ImageSection() {
 
   return (
     <>
-      <section ref={containerRef} className="px-6 md:px-16 max-w-7xl mx-auto py-24 relative overflow-visible">
+      <section id="content" ref={containerRef} className="px-6 md:px-16 max-w-7xl mx-auto py-24 relative overflow-visible">
         {/* Background Rings or abstract elements from image could go here */}
         <div className="absolute inset-0 flex items-center justify-center -z-10 opacity-20 hidden md:flex">
            <div className="w-[600px] h-[600px] border border-brand-beige/20 rounded-full" />
@@ -189,7 +189,7 @@ export default function ImageSection() {
               >
                 {/* Avatar Placeholder */}
                 <div className="w-12 h-12 rounded-full overflow-hidden border border-brand-beige/20 bg-brand-beige/10 shrink-0">
-                   <img src={`https://api.dicebear.com/9.x/avataaars/svg?seed=${item.name.replace(/\s+/g, "")}&backgroundColor=b6e3f4`} alt="" className="w-full h-full object-cover" />
+                   <img src={`/${item.name}.jpg`} alt={item.name} className="w-full h-full object-cover" />
                 </div>
 
                 {/* Info */}

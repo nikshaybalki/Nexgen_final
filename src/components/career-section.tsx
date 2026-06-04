@@ -10,7 +10,7 @@ const positions = [
 
 export default function CareerSection() {
   return (
-    <section className="py-24 px-6 md:px-16 max-w-7xl mx-auto flex flex-col items-center gap-16">
+    <section id="career" className="py-24 px-6 md:px-16 max-w-7xl mx-auto flex flex-col items-center gap-16">
       <div className="flex flex-col items-center text-center gap-4">
         <motion.span 
           className="text-brand-yellow font-semibold text-xs tracking-widest uppercase"

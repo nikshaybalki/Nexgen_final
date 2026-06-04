@@ -1,7 +1,12 @@
 import { motion, useScroll, useTransform } from "motion/react";
 import { useEffect, useState } from "react";
 
-export default function Navbar() {
+interface NavbarProps {
+  currentPage: "home" | "about";
+  onNavigate: (toPage: "home" | "about", hash?: string) => void;
+}
+
+export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
   const { scrollY } = useScroll();
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -12,10 +17,16 @@ export default function Navbar() {
   }, [scrollY]);
 
   const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "Social", href: "#social" },
-    { name: "About", href: "#about" },
+    { name: "Home", href: "#", page: "home" as const },
+    { name: "Content", href: "#content", page: "home" as const, hash: "#content" },
+    { name: "About Us", href: "#about-us", page: "about" as const },
+    { name: "Career", href: "#career", page: "home" as const, hash: "#career" },
   ];
+
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, link: typeof navLinks[number]) => {
+    e.preventDefault();
+    onNavigate(link.page, link.hash);
+  };
 
   return (
     <motion.nav 
@@ -27,7 +38,14 @@ export default function Navbar() {
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-16 h-[74px] flex items-center justify-between">
-        <a href="/" className="flex items-center gap-2">
+        <a 
+          href="/" 
+          onClick={(e) => {
+            e.preventDefault();
+            onNavigate("home");
+          }}
+          className="flex items-center gap-2"
+        >
           {/* NEXGEN Logo */}
           <div className="text-xl font-bold tracking-tighter flex items-center">
              <span className="text-brand-beige">NEXGEN</span>
@@ -37,15 +55,26 @@ export default function Navbar() {
 
         {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <a 
-              key={link.name} 
-              href={link.href} 
-              className="text-sm font-medium text-brand-beige/60 hover:text-brand-beige transition-colors"
-            >
-              {link.name}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = 
+              (link.name === "About Us" && currentPage === "about") || 
+              (link.name === "Home" && currentPage === "home" && !window.location.hash);
+            
+            return (
+              <a 
+                key={link.name} 
+                href={link.href}
+                onClick={(e) => handleLinkClick(e, link)}
+                className={`text-sm font-medium transition-colors ${
+                  isActive 
+                    ? "text-brand-red font-semibold" 
+                    : "text-brand-beige/60 hover:text-brand-beige"
+                }`}
+              >
+                {link.name}
+              </a>
+            );
+          })}
           
           <motion.a
             href="https://forms.gle/fVo9Nq8fd6xHhGZAA"
