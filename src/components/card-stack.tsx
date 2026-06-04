@@ -124,21 +124,51 @@ export function CardStack<T extends CardStackItem>({
   );
   const [hovering, setHovering] = React.useState(false);
 
-  // keep active in bounds if items change
-  React.useEffect(() => {
-    setActive((a) => wrapIndex(a, len));
-  }, [len]);
+  const [dimensions, setDimensions] = React.useState({
+    width: cardWidth,
+    height: cardHeight,
+  });
+  const [isMobile, setIsMobile] = React.useState(false);
 
   React.useEffect(() => {
-    if (!len) return;
-    onChangeIndex?.(active, items[active]!);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [active]);
+    if (typeof window === "undefined") return;
+    
+    const handleResize = () => {
+      const screenWidth = window.innerWidth;
+      const mobile = screenWidth < 640;
+      setIsMobile(mobile);
+
+      if (mobile) {
+        // Mobile layout: Card width should be roughly 85% of screen width, leaving room for overlap/sides
+        const padding = 36; // px padding
+        const targetWidth = Math.min(cardWidth, screenWidth - padding);
+        const targetHeight = Math.round(targetWidth * (cardHeight / cardWidth));
+        setDimensions({
+          width: targetWidth,
+          height: targetHeight,
+        });
+      } else {
+        setDimensions({
+          width: cardWidth,
+          height: cardHeight,
+        });
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [cardWidth, cardHeight]);
+
+  const responsiveOverlap = isMobile ? 0.78 : overlap; // higher overlap on mobile
+  const responsiveSpreadDeg = isMobile ? spreadDeg * 0.45 : spreadDeg; // lower fan angle on mobile
+  const responsiveDepthPx = isMobile ? depthPx * 0.4 : depthPx; // lower depth on mobile
+  const responsiveActiveLiftPx = isMobile ? activeLiftPx * 0.5 : activeLiftPx;
 
   const maxOffset = Math.max(0, Math.floor(maxVisible / 2));
 
-  const cardSpacing = Math.max(10, Math.round(cardWidth * (1 - overlap)));
-  const stepDeg = maxOffset > 0 ? spreadDeg / maxOffset : 0;
+  const cardSpacing = Math.max(10, Math.round(dimensions.width * (1 - responsiveOverlap)));
+  const stepDeg = maxOffset > 0 ? responsiveSpreadDeg / maxOffset : 0;
 
   const canGoPrev = loop || active > 0;
   const canGoNext = loop || active < len - 1;
@@ -201,7 +231,7 @@ export function CardStack<T extends CardStackItem>({
       {/* Stage */}
       <div
         className="relative w-full overflow-visible"
-        style={{ height: Math.max(380, cardHeight + 80) }}
+        style={{ height: Math.max(280, dimensions.height + (isMobile ? 40 : 80)) }}
         tabIndex={0}
         onKeyDown={onKeyDown}
       >
@@ -233,13 +263,13 @@ export function CardStack<T extends CardStackItem>({
               // fan geometry
               const rotateZ = off * stepDeg;
               const x = off * cardSpacing;
-              const y = abs * 10; // subtle arc-down feel
-              const z = -abs * depthPx;
+              const y = abs * (isMobile ? 4 : 10); // subtle arc-down feel, reduced on mobile
+              const z = -abs * responsiveDepthPx;
 
               const isActive = off === 0;
 
               const scale = isActive ? activeScale : inactiveScale;
-              const lift = isActive ? -activeLiftPx : 0;
+              const lift = isActive ? -responsiveActiveLiftPx : 0;
 
               const rotateX = isActive ? 0 : tiltXDeg;
 
@@ -258,7 +288,7 @@ export function CardStack<T extends CardStackItem>({
                       if (reduceMotion) return;
                       const travel = info.offset.x;
                       const v = info.velocity.x;
-                      const threshold = Math.min(160, cardWidth * 0.22);
+                      const threshold = Math.min(160, dimensions.width * 0.22);
 
                       // swipe logic
                       if (travel > threshold || v > 650) prev();
@@ -278,8 +308,8 @@ export function CardStack<T extends CardStackItem>({
                       : "cursor-pointer",
                   )}
                   style={{
-                    width: cardWidth,
-                    height: cardHeight,
+                    width: dimensions.width,
+                    height: dimensions.height,
                     zIndex,
                     transformStyle: "preserve-3d",
                   }}

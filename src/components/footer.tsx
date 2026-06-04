@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import { Send } from "lucide-react";
 
-export default function Footer({ onNavigate }: { onNavigate?: (toPage: "home" | "about" | "content", hash?: string) => void }) {
+export default function Footer({ onNavigate }: { onNavigate?: (toPage: "home" | "about" | "content" | "career", hash?: string) => void }) {
   return (
     <footer className="bg-black pt-32 pb-16 px-6 md:px-16 border-t border-brand-beige/10 overflow-hidden relative">
       <div className="max-w-7xl mx-auto relative z-10">
@@ -65,10 +65,10 @@ export default function Footer({ onNavigate }: { onNavigate?: (toPage: "home" | 
                    </li>
                    <li>
                      <a 
-                       href="#career" 
+                       href="/career" 
                        onClick={(e) => {
                          e.preventDefault();
-                         onNavigate?.("home", "#career");
+                         onNavigate?.("career");
                        }} 
                        className="hover:text-brand-beige transition-colors"
                      >
@@ -85,9 +85,12 @@ export default function Footer({ onNavigate }: { onNavigate?: (toPage: "home" | 
                         NexGen Media, 5th Floor,<br />
                         Vision Flora Mall, Pimple Saudagar
                     </p>
-                    <a href="mailto:hello@nexgenmedia.com" className="block pt-4 text-brand-beige font-semibold hover:text-brand-red transition-colors underline underline-offset-4">
-                        hello@nexgenmedia.com
-                    </a>
+                    <a 
+                       href="mailto:hello@nexgenmedia.com" 
+                       className="block pt-4 text-brand-beige font-semibold hover:text-brand-red transition-colors underline underline-offset-4 text-sm sm:text-base md:text-lg break-all"
+                     >
+                         hello@nexgenmedia.com
+                     </a>
                  </div>
                </div>
             </div>

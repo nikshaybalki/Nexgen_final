@@ -90,9 +90,9 @@ const data = {
       url: "https://www.instagram.com/vaibhavkadnarofficial"
     },
     { type: "videos", bg: "bg-zinc-950", title: "FEATURED REELS", items: [
-      { id: "1", title: "Stop Being a People Pleaser | 3 Actionable Steps", href: "https://www.instagram.com/vaibhavkadnarofficial", imageSrc: "https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?q=80&w=1200&auto=format&fit=crop" },
-      { id: "2", title: "The Rule of 2 Minutes to Destroy Procrastination", href: "https://www.instagram.com/vaibhavkadnarofficial", imageSrc: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop" },
-      { id: "3", title: "How to Double Your Confidence Before a Meeting", href: "https://www.instagram.com/vaibhavkadnarofficial", imageSrc: "https://images.unsplash.com/photo-1552581230-c0137413876e?q=80&w=1200&auto=format&fit=crop" }
+      { id: "1", title: "Stop Being a People Pleaser | 3 Actionable Steps", href: "https://www.instagram.com/vaibhavkadnarofficial", imageSrc: "/inst-1 (1).png" },
+      { id: "2", title: "The Rule of 2 Minutes to Destroy Procrastination", href: "https://www.instagram.com/vaibhavkadnarofficial", imageSrc: "/inst-1 (2).png" },
+      { id: "3", title: "How to Double Your Confidence Before a Meeting", href: "https://www.instagram.com/vaibhavkadnarofficial", imageSrc: "/inst-1 (3).png" }
     ] },
     {
       type: "channel-impact",
@@ -215,9 +215,9 @@ const data = {
       url: "https://www.instagram.com/vaibhavkadnar.talks"
     },
     { type: "videos", bg: "bg-zinc-950", title: "FEATURED INSIGHTS", items: [
-      { id: "1", title: "Why College Degrees are Losing Value in India", href: "https://www.instagram.com/vaibhavkadnar.talks", imageSrc: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200&auto=format&fit=crop" },
-      { id: "2", title: "How to Build a High-Income Digital Skill", href: "https://www.instagram.com/vaibhavkadnar.talks", imageSrc: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop" },
-      { id: "3", title: "Unfiltered Career Advice for Gen Z", href: "https://www.instagram.com/vaibhavkadnar.talks", imageSrc: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop" }
+      { id: "1", title: "Why College Degrees are Losing Value in India", href: "https://www.instagram.com/vaibhavkadnar.talks", imageSrc: "/insta-1 (1).png" },
+      { id: "2", title: "How to Build a High-Income Digital Skill", href: "https://www.instagram.com/vaibhavkadnar.talks", imageSrc: "/insta-1 (2).png" },
+      { id: "3", title: "Unfiltered Career Advice for Gen Z", href: "https://www.instagram.com/vaibhavkadnar.talks", imageSrc: "/insta-1 (3).png" }
     ] },
     {
       type: "channel-impact",

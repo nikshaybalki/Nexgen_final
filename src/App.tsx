@@ -14,20 +14,23 @@ import TheTeam from "./components/the-team";
 import CareerSection from "./components/career-section";
 import Footer from "./components/footer";
 import ContentPage from "./components/content-page";
+import CareerPage from "./components/career-page";
 
 export default function App() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [currentPage, setCurrentPage] = useState<"home" | "about" | "content">(() => {
+  const [currentPage, setCurrentPage] = useState<"home" | "about" | "content" | "career">(() => {
     const path = window.location.pathname;
     if (path === "/about" || path === "/about-us") return "about";
     if (path === "/content") return "content";
+    if (path === "/career" || path === "/careers") return "career";
     return "home";
   });
 
-  const navigate = (toPage: "home" | "about" | "content", hash?: string) => {
+  const navigate = (toPage: "home" | "about" | "content" | "career", hash?: string) => {
     let url = "/";
     if (toPage === "about") url = "/about";
     else if (toPage === "content") url = "/content";
+    else if (toPage === "career") url = "/career";
     window.history.pushState({}, "", url + (hash || ""));
     setCurrentPage(toPage);
 
@@ -39,7 +42,7 @@ export default function App() {
         }
       }, 100);
     } else {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo(0, 0);
     }
   };
 
@@ -50,6 +53,8 @@ export default function App() {
         setCurrentPage("about");
       } else if (path === "/content") {
         setCurrentPage("content");
+      } else if (path === "/career" || path === "/careers") {
+        setCurrentPage("career");
       } else {
         setCurrentPage("home");
       }
@@ -60,13 +65,15 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (currentPage === "home" && window.location.hash) {
+    if (window.location.hash) {
       setTimeout(() => {
         const element = document.querySelector(window.location.hash);
         if (element) {
           element.scrollIntoView({ behavior: "smooth" });
         }
       }, 300);
+    } else {
+      window.scrollTo(0, 0);
     }
   }, [currentPage]);
   
@@ -80,7 +87,7 @@ export default function App() {
             <Hero onNavigate={navigate} />
             <ImageSection />
             <ScaleSection />
-            <CareerSection />
+            <CareerSection onNavigate={navigate} />
           </>
         ) : currentPage === "about" ? (
           <>
@@ -92,8 +99,10 @@ export default function App() {
             <TheWayWeWork />
             <TheTeam />
           </>
-        ) : (
+        ) : currentPage === "content" ? (
           <ContentPage />
+        ) : (
+          <CareerPage />
         )}
       </main>
 

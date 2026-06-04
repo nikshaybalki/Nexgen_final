@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 
 interface NavbarProps {
-  currentPage: "home" | "about" | "content";
-  onNavigate: (toPage: "home" | "about" | "content", hash?: string) => void;
+  currentPage: "home" | "about" | "content" | "career";
+  onNavigate: (toPage: "home" | "about" | "content" | "career", hash?: string) => void;
 }
 
 export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
@@ -22,7 +22,7 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
     { name: "Home", href: "/", page: "home" as const },
     { name: "Content", href: "/content", page: "content" as const },
     { name: "About Us", href: "/about-us", page: "about" as const },
-    { name: "Career", href: "#career", page: "home" as const, hash: "#career" },
+    { name: "Career", href: "/career", page: "career" as const },
   ];
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, link: typeof navLinks[number]) => {
@@ -58,10 +58,7 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
         {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => {
-            const isActive = 
-              (link.name === "About Us" && currentPage === "about") || 
-              (link.name === "Content" && currentPage === "content") || 
-              (link.name === "Home" && currentPage === "home" && !window.location.hash);
+            const isActive = link.page === currentPage && (!link.hash || window.location.hash === link.hash);
             
             return (
               <a 
@@ -112,10 +109,7 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
             className="absolute top-[74px] left-0 w-full bg-black/95 border-b border-brand-beige/10 backdrop-blur-lg flex flex-col items-center gap-6 py-8 md:hidden"
           >
             {navLinks.map((link) => {
-              const isActive = 
-                (link.name === "About Us" && currentPage === "about") || 
-                (link.name === "Content" && currentPage === "content") || 
-                (link.name === "Home" && currentPage === "home" && !window.location.hash);
+              const isActive = link.page === currentPage && (!link.hash || window.location.hash === link.hash);
               
               return (
                 <a 
