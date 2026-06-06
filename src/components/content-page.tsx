@@ -50,30 +50,6 @@ const channels = [
     url: "https://www.instagram.com/vaibhavkadnar.talks",
     hasPage: true,
   },
-  {
-    name: "The Vaibhav Doctrine",
-    platform: "youtube",
-    initials: "VD",
-    image: "/The Vaibhav Doctrine.jpg",
-    metric: "3.5K",
-    metricType: "SUBSCRIBERS",
-    description: "Geopolitics, global power, and international strategy. Decoding wars, economies, and the forces that quietly shape nations and your future.",
-    videoId: "BDGGkT8YB0w",
-    url: "https://www.youtube.com/@TheVaibhavDoctrine",
-    hasPage: true,
-  },
-  {
-    name: "Vaibhav Career Lab",
-    platform: "youtube",
-    initials: "VC",
-    image: "/Vaibhav Career Lab.jpg",
-    metric: "2.92K",
-    metricType: "SUBSCRIBERS",
-    description: "Unlocking career excellence and job strategies. Practical guides on resume building, networking, and high-income skills in the digital economy.",
-    videoId: "ym_E5VGm8GU",
-    url: "https://www.youtube.com/@VaibhavCareerLab",
-    hasPage: true,
-  },
 ];
 
 export default function ContentPage() {

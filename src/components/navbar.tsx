@@ -18,11 +18,11 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
     });
   }, [scrollY]);
 
-  const navLinks = [
-    { name: "Home", href: "/", page: "home" as const },
-    { name: "Content", href: "/content", page: "content" as const },
-    { name: "About Us", href: "/about-us", page: "about" as const },
-    { name: "Career", href: "/career", page: "career" as const },
+  const navLinks: { name: string; href: string; page: "home" | "about" | "content" | "career"; hash?: string }[] = [
+    { name: "Home", href: "/", page: "home" },
+    { name: "Content", href: "/content", page: "content" },
+    { name: "About Us", href: "/about-us", page: "about" },
+    { name: "Career", href: "/career", page: "career" },
   ];
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, link: typeof navLinks[number]) => {
@@ -77,14 +77,16 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
           })}
           
           <motion.a
-            href="https://forms.gle/fVo9Nq8fd6xHhGZAA"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/career"
+            onClick={(e) => {
+              e.preventDefault();
+              onNavigate("career");
+            }}
             className="bg-brand-red text-brand-beige px-6 py-3 rounded-full text-xs font-bold tracking-widest uppercase hover:opacity-90 transition-opacity"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            SCHEDULE A CALL
+            JOB OPENING
           </motion.a>
         </div>
 
@@ -131,13 +133,15 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
             })}
             
             <a
-              href="https://forms.gle/fVo9Nq8fd6xHhGZAA"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/career"
               className="bg-brand-red text-brand-beige px-8 py-3 rounded-full text-sm font-bold tracking-widest uppercase hover:opacity-90 transition-opacity mt-4"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate("career");
+                setIsMenuOpen(false);
+              }}
             >
-              SCHEDULE A CALL
+              JOB OPENING
             </a>
           </motion.div>
         )}

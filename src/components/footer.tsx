@@ -86,10 +86,10 @@ export default function Footer({ onNavigate }: { onNavigate?: (toPage: "home" | 
                         Vision Flora Mall, Pimple Saudagar
                     </p>
                     <a 
-                       href="mailto:hello@nexgenmedia.com" 
+                       href="mailto:admin@nexgenmedia.co.in" 
                        className="block pt-4 text-brand-beige font-semibold hover:text-brand-red transition-colors underline underline-offset-4 text-sm sm:text-base md:text-lg break-all"
                      >
-                         hello@nexgenmedia.com
+                         admin@nexgenmedia.co.in
                      </a>
                  </div>
                </div>
