@@ -22,7 +22,6 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
     { name: "Home", href: "/", page: "home" },
     { name: "Content", href: "/content", page: "content" },
     { name: "About Us", href: "/about-us", page: "about" },
-    { name: "Career", href: "/career", page: "career" },
   ];
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, link: typeof navLinks[number]) => {

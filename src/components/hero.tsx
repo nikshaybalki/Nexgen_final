@@ -69,7 +69,7 @@ export default function Hero({ onNavigate }: { onNavigate: (toPage: "home" | "ab
           transition={{ duration: 0.8, delay: 0.6 }}
         >
           <p className="text-xl md:text-2xl font-medium leading-tight">
-            <span className="font-bold">Vaibhav Kadnar</span> blends authentic storytelling, creative vision, and engaging digital media to create content that breaks through the noise.
+            <span className="font-bold">Nexgen Media</span> blends authentic storytelling, creative vision, and engaging digital media to create content that breaks through the noise.
           </p>
           <p className="mt-8 text-brand-beige/50 text-lg md:text-xl font-medium">
             If you want to experience content that builds genuine connections and inspires audiences, you've come to the right place.

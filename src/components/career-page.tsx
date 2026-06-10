@@ -4,37 +4,37 @@ import { useRef } from "react";
 
 const openPositions = [
   {
-    title: "SENIOR SOFTWARE ENGINEER",
-    location: "Bangalore, India",
+    title: "Junior Video Editor",
+    location: "Pune, India",
     type: "Full-time",
-    experience: "Senior Level",
-    category: "ENGINEERING",
+    experience: "Mid Level",
+    // category: "ENGINEERING",
     link: "https://binary.so/UDQPjo0",
   },
   {
-    title: "PRODUCT DESIGNER",
-    location: "Bangalore, India",
+    title: "Senior Script Writer",
+    location: "Pune, India",
     type: "Full-time",
     experience: "Mid Level",
-    category: "DESIGN",
+    // category: "DESIGN",
     link: "https://binary.so/6fSQBiA",
   },
-  {
-    title: "FRONTEND DEVELOPER",
-    location: "Bangalore, India",
-    type: "Full-time",
-    experience: "Mid Level",
-    category: "ENGINEERING",
-    link: "https://binary.so/uOWUtk0",
-  },
-  {
-    title: "MARKETING SPECIALIST",
-    location: "Bangalore, India",
-    type: "Full-time",
-    experience: "Mid Level",
-    category: "MARKETING",
-    link: "https://binary.so/W4rk4vx",
-  },
+  // {
+  //   title: "FRONTEND DEVELOPER",
+  //   location: "Bangalore, India",
+  //   type: "Full-time",
+  //   experience: "Mid Level",
+  //   category: "ENGINEERING",
+  //   link: "https://binary.so/uOWUtk0",
+  // },
+  // {
+  //   title: "MARKETING SPECIALIST",
+  //   location: "Bangalore, India",
+  //   type: "Full-time",
+  //   experience: "Mid Level",
+  //   category: "MARKETING",
+  //   link: "https://binary.so/W4rk4vx",
+  // },
 ];
 
 export default function CareerPage() {
@@ -168,9 +168,9 @@ export default function CareerPage() {
                 {/* Right Side Actions */}
                 <div className="flex flex-col md:items-end justify-between gap-4 self-stretch md:self-auto min-w-[160px]">
                   {/* Category Tag */}
-                  <div className="border border-brand-red/20 text-brand-red px-4 py-1.5 rounded font-black text-[9px] tracking-[0.15em] uppercase text-center inline-block max-w-fit self-start md:self-auto">
+                  {/* <div className="border border-brand-red/20 text-brand-red px-4 py-1.5 rounded font-black text-[9px] tracking-[0.15em] uppercase text-center inline-block max-w-fit self-start md:self-auto">
                     {job.category}
-                  </div>
+                  </div> */}
 
                   {/* Action Button */}
                   <a

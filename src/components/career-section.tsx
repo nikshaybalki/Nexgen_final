@@ -75,7 +75,9 @@ export default function CareerSection({ onNavigate }: CareerSectionProps) {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-red opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-red"></span>
               </span>
-              {positions.length} ROLE{positions.length > 1 ? "S" : ""} OPEN NOW
+              {2} ROLE{positions.length > 1 ? "S" : ""} OPEN NOW
+              {/* {positions.length} ROLE{positions.length > 1 ? "S" : ""} OPEN NOW */}
+
             </div>
 
             {/* See Open Roles Action Button */}
